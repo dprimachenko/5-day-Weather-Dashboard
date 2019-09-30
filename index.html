@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="container-fluid" style="margin-bottom: 50px;">
+      <nav class="navbar navbar-expand-md navbar-dark border-bottom bg-dark fixed-top">
+        <a class="navbar-brand" style="color: white; font-size: 36px; padding-left: 40%" href="#">Weather DashBoard</a>
+      </nav>
+    </header>
+    <div class="row">
+      <div class="container-fluid col-md-3">
+        <div class="jumbotron" style="padding: 35px 15px 15px 10px;">
+          <h4>Search for a City:</h4>
+          <div class="input-group flex-nowrap">
+            <input type="text" class="form-control" placeholder="Search Cities" aria-label="Search" aria-describedby="addon-wrapping" id="input">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary bg-primary" type="button" id="search"><i class="fas fa-search" style="color: white;"></i></button>
+            </div>
+          </div>
+          <div class="card" style="width: 100%">
+            <ul class="list-group list-group-flush">
+              <button class="btn bg-light"><li class="list-group-item bg-light">Cras justo odio</li></button>
+              <button class="btn bg-light"><li class="list-group-item bg-light">Dapibus ac facilisis in</li></button>
+              <button class="btn bg-light"><li class="list-group-item bg-light">Vestibulum at eros</li></button>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="container-fluid col-md-9" style="padding-top: 35px; padding-right: 25px;">
+        <div class="container-fluid border border-dark" id="current-weather">
+          <h2 id="city"><span id="current-date"></span><span id="current-icon"></span>City</h2>
+          <p>Temperature: <span id="current-temp"></span>F</p>
+          <p>Humidity: <span id="current-humidity"></span>%</p>
+          <p>Wind Speed: <span id="current-wind"></span>MPH</p>
+          <p>UV Index: <span id="current-uv"></span></p>
+        </div>
+        <div class="container-fluid" id="forecast">
+          <h2>5-Day Forecast: </h2>
+          <div class="row">
+            <div class="col-md">
+              <div class="card bg-primary" style="width: 100%; color: white;">
+                <div class="card-body">
+                  <h5 class="card-title" id="day1"></h5>
+                  <p id="icon1"></p>
+                  <p>Temp: <span id="temp1"></span></p>
+                  <p>Humidity: <span id="humidity1"></span></p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="card bg-primary" style="width: 100%; color: white;">
+                <div class="card-body">
+                  <h5 class="card-title" id="day2"></h5>
+                  <p id="icon2"></p>
+                  <p>Temp: <span id="temp2"></span></p>
+                  <p>Humidity: <span id="humidity2"></span></p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="card bg-primary" style="width: 100%; color: white;">
+                <div class="card-body">
+                  <h5 class="card-title" id="day1"></h5>
+                  <p id="icon1"></p>
+                  <p>Temp: <span id="temp1"></span></p>
+                  <p>Humidity: <span id="humidity1"></span></p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="card bg-primary" style="width: 100%; color: white;">
+                <div class="card-body">
+                  <h5 class="card-title" id="day3"></h5>
+                  <p id="icon3"></p>
+                  <p>Temp: <span id="temp3"></span></p>
+                  <p>Humidity: <span id="humidity3"></span></p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="card bg-primary" style="width: 100%; color: white;">
+                <div class="card-body">
+                  <h5 class="card-title" id="day4"></h5>
+                  <p id="icon4"></p>
+                  <p>Temp: <span id="temp4"></span></p>
+                  <p>Humidity: <span id="humidity4"></span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src=./moment-with-locales.js></script>
+    <script type="text/javascript"></script>
+  </body>
