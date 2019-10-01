@@ -36,17 +36,14 @@
             </div>
           </div>
           <div class="card" style="width: 100%">
-            <ul class="list-group list-group-flush">
-              <button class="btn bg-light"><li class="list-group-item bg-light">Cras justo odio</li></button>
-              <button class="btn bg-light"><li class="list-group-item bg-light">Dapibus ac facilisis in</li></button>
-              <button class="btn bg-light"><li class="list-group-item bg-light">Vestibulum at eros</li></button>
+            <ul class="list-group list-group-flush" id="lists">
             </ul>
           </div>
         </div>
       </div>
       <div class="container-fluid col-md-9" style="padding-top: 35px; padding-right: 25px;">
         <div class="container-fluid border border-dark" id="current-weather">
-          <h2 id="city"><span id="current-date"></span><span id="current-icon"></span>City</h2>
+          <h2 id="city"><span id="current-date"></span><span id="current-icon"></span></h2>
           <p>Temperature: <span id="current-temp"></span>F</p>
           <p>Humidity: <span id="current-humidity"></span>%</p>
           <p>Wind Speed: <span id="current-wind"></span>MPH</p>
@@ -58,10 +55,20 @@
             <div class="col-md">
               <div class="card bg-primary" style="width: 100%; color: white;">
                 <div class="card-body">
+                  <h5 class="card-title" id="day0"></h5>
+                  <p id="icon0"></p>
+                  <p>Temp: <span id="temp0"></span></p>
+                  <p>Humidity: <span id="humidity0"></span></p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="card bg-primary" style="width: 100%; color: white;">
+                <div class="card-body">
                   <h5 class="card-title" id="day1"></h5>
                   <p id="icon1"></p>
-                  <p>Temp: <span id="temp1"></span></p>
-                  <p>Humidity: <span id="humidity1"></span></p>
+                  <p>Temp: <span id="temp1"></span> F</p>
+                  <p>Humidity: <span id="humidity1"> %</span></p>
                 </div>
               </div>
             </div>
@@ -70,18 +77,8 @@
                 <div class="card-body">
                   <h5 class="card-title" id="day2"></h5>
                   <p id="icon2"></p>
-                  <p>Temp: <span id="temp2"></span></p>
-                  <p>Humidity: <span id="humidity2"></span></p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md">
-              <div class="card bg-primary" style="width: 100%; color: white;">
-                <div class="card-body">
-                  <h5 class="card-title" id="day1"></h5>
-                  <p id="icon1"></p>
-                  <p>Temp: <span id="temp1"></span></p>
-                  <p>Humidity: <span id="humidity1"></span></p>
+                  <p>Temp: <span id="temp2"></span> F</p>
+                  <p>Humidity: <span id="humidity2"> %</span></p>
                 </div>
               </div>
             </div>
@@ -90,8 +87,8 @@
                 <div class="card-body">
                   <h5 class="card-title" id="day3"></h5>
                   <p id="icon3"></p>
-                  <p>Temp: <span id="temp3"></span></p>
-                  <p>Humidity: <span id="humidity3"></span></p>
+                  <p>Temp: <span id="temp3"></span> F</p>
+                  <p>Humidity: <span id="humidity3"> %</span></p>
                 </div>
               </div>
             </div>
@@ -100,8 +97,8 @@
                 <div class="card-body">
                   <h5 class="card-title" id="day4"></h5>
                   <p id="icon4"></p>
-                  <p>Temp: <span id="temp4"></span></p>
-                  <p>Humidity: <span id="humidity4"></span></p>
+                  <p>Temp: <span id="temp4"></span> F</p>
+                  <p>Humidity: <span id="humidity4"> %</span></p>
                 </div>
               </div>
             </div>
@@ -112,5 +109,102 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src=./moment-with-locales.js></script>
-    <script type="text/javascript"></script>
+    <script type="text/javascript">
+      let total;
+      let api_key = "42afd2fc604335b877f83a316b5ea358";
+      let date = moment().format('l');
+      $(document).ready(function(){
+        let savedTotal = localStorage.getItem("total");
+        console.log(savedTotal);
+        for (var i = 0; i < savedTotal; i++) {
+          let storedCity = localStorage.getItem("city"+i);
+          save(storedCity);
+        }
+        for (let j = 0; j <= 4; j++) {
+          $("#icon"+j).empty();
+        }
+        $("#current-uv").empty();
+        let lastCity = localStorage.getItem("city"+(savedTotal-1));
+        currentWeather(lastCity);
+        fiveDayWeather(lastCity);
+      });
+      
+      $("#search").on("click",function(){
+        for (let i = 0; i <= 4; i++) {
+          $("#icon"+i).empty();
+        }
+        console.log(1);
+        $("#current-uv").empty();
+        let city = $("#input").val();
+        currentWeather(city);
+        fiveDayWeather(city);
+        save(city);
+      });
+      let counter = 0;
+      function save(city){
+        let button = $("<button>").attr("class","btn bg-light").attr("id","cities").text(city);
+        let listItem = $("<li>").attr("class","list-group-item bg-light");
+        listItem.append(button);
+        $("#lists").prepend(listItem);
+        localStorage.setItem("city"+counter,city);
+        counter++;
+        total = $("#lists")[0].children.length;
+        localStorage.setItem("total",total);
+      };
+
+      $(document).on("click",'#lists #cities',function(){
+        for (let i = 0; i <= 4; i++) {
+          $("#icon"+i).empty();
+        }
+        console.log(1);
+        $("#current-uv").empty();
+        let city = $("#input").val();
+        let savedCity = $(this).text();
+        currentWeather(savedCity);
+        fiveDayWeather(savedCity);
+      });
+
+      function currentWeather(city){
+        let current_url = "https://api.openweathermap.org/data/2.5/weather?q="+city+"&units=imperial&appid="+api_key;
+        $.ajax({
+          url: current_url,
+          method: "GET"
+        }).then(function(response) {
+          $("#city").text(response.name + " ("+date+")");
+          $("#current-wind").text(response.wind.speed);
+          let f = response.main.temp;
+          $("#current-humidity").text(response.main.humidity);
+          $("#current-temp").text(f);
+          let icon = response.weather[0].icon;
+          $("<img>").appendTo("#city").attr("src","http://openweathermap.org/img/wn/"+icon+"@2x.png");
+          let lat = response.coord.lat;
+          let lon = response.coord.lon;
+          let uv_url = "https://api.openweathermap.org/data/2.5/uvi?lat="+lat+"&lon="+lon+"&appid=42afd2fc604335b877f83a316b5ea358";
+          $.ajax({
+              url: uv_url,
+              method: "GET"
+          }).then(function(event) {
+            let uv_index = event.value;
+            let highlighted = $("<button>").text(uv_index).attr("style","background-color: red; color: white;").attr("class","btn");
+            $("#current-uv").append(highlighted);
+          });
+        });
+      };
+      function fiveDayWeather(city){
+        let forecast_url = "https://api.openweathermap.org/data/2.5/forecast?q="+city+"&units=imperial&appid="+api_key;$.ajax({
+          url: forecast_url,
+          method: "GET"
+      }).then(function(results) {
+        for (let i = 0; i <= 4; i++) {
+          let x = (i * 8) + 2;
+          $("#day"+i).text(moment().add((i+1), 'days').format('l'));
+          $("#humidity"+i).text(results.list[x].main.humidity);
+          let f = results.list[x].main.temp;
+          $("#temp"+i).text(f);
+          let icon = results.list[x].weather[0].icon;
+          $("<img>").appendTo("#icon"+i).attr("src","http://openweathermap.org/img/wn/"+icon+"@2x.png");
+        }
+      });
+    };
+    </script>
   </body>
