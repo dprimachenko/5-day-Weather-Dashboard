@@ -196,7 +196,7 @@
           method: "GET"
       }).then(function(results) {
         for (let i = 0; i <= 4; i++) {
-          let x = (i * 8) + 2;
+          let x = (i * 8) + 5;
           $("#day"+i).text(moment().add((i+1), 'days').format('l'));
           $("#humidity"+i).text(results.list[x].main.humidity);
           let f = results.list[x].main.temp;
